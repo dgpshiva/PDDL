@@ -1,0 +1,162 @@
+(smaller d1 p1) 
+  	 (smaller d2 p1) 
+  	 (smaller d3 p1) 
+  	 
+  	 (smaller d1 p2) 
+  	 (smaller d2 p2) 
+  	 (smaller d3 p2) 
+  	 
+  	 (smaller d1 p3) 
+  	 (smaller d2 p3) 
+  	 (smaller d3 p3) 
+  	 
+  	 
+  	 
+  	 
+	 (smaller p0 p1) 
+	 (smaller p0 p2) 
+	 (smaller p0 p3) 
+  	 
+  	 (smaller p1 p0) 
+  	 (smaller p2 p0) 
+  	 (smaller p3 p0) 
+
+
+
+
+
+ (pincheck p0 p1)
+  	 (pincheck p0 p2)
+  	 (pincheck p0 p3)
+  	 
+  	 (pincheck p1 p0)
+  	 (pincheck p2 p0)
+  	 (pincheck p3 p0)
+  	 
+
+
+
+
+
+Hanoi 4 soln:
+Begin plan
+1 (move-disk d1 d2 p2)
+2 (move-disk d2 d3 p1)
+3 (move-disk d1 p2 d2)
+4 (move-disk d3 d4 p2)
+5 (move-disk d1 d2 d4)
+6 (move-disk d2 p1 d3)
+7 (move-disk d1 d4 d2)
+8 (move-disk d4 p3 p1)
+9 (move-disk d1 d2 d4)
+10 (move-disk d2 d3 p3)
+11 (move-disk d1 d4 d2)
+12 (move-disk d3 p2 d4)
+13 (move-disk d1 d2 p2)
+14 (move-disk d2 p3 d3)
+15 (move-disk d1 p2 d2)
+End plan
+
+
+
+
+
+
+
+
+
+(define (domain star-domain-try3)
+  (:requirements :strips)
+  (:predicates (disk ?x) (smaller ?x ?y) (on ?x ?y) (clear ?x) (equal ?x ?y))
+  
+  (:action move-disk-center
+           :parameters (?disk ?below-disk)
+           :precondition (and (disk ?disk)
+                              (smaller ?disk p0)
+                              (not (equal p0 ?below-disk))
+                              (not (equal p0 ?disk))
+                              (not (equal  ?below-disk ?disk))
+                              (on ?disk ?below-disk)
+                              (clear ?disk)
+                              (clear p0))
+                              
+           :effect (and (clear ?below-disk)
+                        (on ?disk p0)
+                        (not (on ?disk ?below-disk))
+                        (not (clear p0)) ) )
+                        
+  (:action move-disk-peg
+           :parameters (?disk ?new-below-disk)
+           :precondition (and (disk ?disk)
+                              (smaller ?disk ?new-below-disk)
+                              (not (equal ?new-below-disk p0))
+                              (not (equal ?new-below-disk ?disk))
+                              (not (equal p0 ?disk))
+                              (on ?disk p0)
+                              (clear ?disk)
+                              (clear ?new-below-disk))
+                              
+           :effect (and (clear p0)
+                        (on ?disk ?new-below-disk)
+                        (not (on ?disk p0))
+                        (not (clear ?new-below-disk)) ) )
+)
+
+
+
+
+
+
+
+
+(validmove d1 p1)
+	 (validmove d1 p2)
+	 (validmove d1 p3)
+	 
+	 (validmove d2 p1)
+	 (validmove d2 p2)
+	 (validmove d2 p3)
+	 
+	 (validmove d3 p1)
+	 (validmove d3 p2)
+	 (validmove d3 p3)
+	 
+	 
+	 
+	 
+	 (smaller d1 p1) 
+	   	 (smaller d2 p1) 
+	   	 (smaller d3 p1) 
+	   	 
+	   	 (smaller d1 p2) 
+	   	 (smaller d2 p2) 
+	   	 (smaller d3 p2) 
+	   	 
+	   	 (smaller d1 p3) 
+	   	 (smaller d2 p3) 
+	   	 (smaller d3 p3) 
+  	 
+  	 
+  	 
+  	 (validmove ?below-disk ?new-below-disk)
+  	 
+  	 
+  	 
+  	 
+  	 
+  	 (smaller d1 p1) 
+	 (smaller d2 p1) 
+	 (smaller d3 p1) 
+	 
+	 (smaller d1 p2) 
+	 (smaller d2 p2) 
+	 (smaller d3 p2) 
+	   	 
+	 (smaller d1 p3) 
+	 (smaller d2 p3) 
+  	 (smaller d3 p3) 
+
+
+
+
+
